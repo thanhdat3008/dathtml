@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng - Gia Dụng Online</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <header class="p-3 bg-dark text-white d-flex justify-content-between align-items-center">
+        <img src="../img/logo.png" alt="Logo" style="height: 50px;">
+        <nav>
+            <a href="index.html" class="text-white mx-2">Trang chủ</a>
+            <a href="sanpham.html" class="text-white mx-2">Sản phẩm</a>
+            <a href="tintuc.html" class="text-white mx-2">Tin tức</a>
+            <a href="giohang.html" class="text-white mx-2">Giỏ hàng</a>
+            <a href="dangky.html" class="text-white mx-2">Đăng ký</a>
+        </nav>
+    </header>
+
+    <main class="container my-5">
+        <h2>Giỏ hàng của bạn</h2>
+        <div id="cartItems"></div>
+        <div id="totalPrice" class="fs-4 my-3"></div>
+        <button onclick="checkout()" class="btn btn-success">Xác nhận thanh toán</button>
+    </main>
+
+    <footer class="bg-dark text-center text-white py-3">© 2025 Gia Dụng Online - IUH-FIT</footer>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const products = JSON.parse(localStorage.getItem('products')) || [];
+        const cartContainer = document.getElementById('cartItems');
+        let total = 0;
+
+        if (cart.length > 0) {
+            cart.forEach(item => {
+                const product = products.find(p => p.id === item.id);
+                if (product) {
+                    const itemTotal = product.price * item.quantity;
+                    total += itemTotal;
+                    cartContainer.innerHTML += `
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <div>${product.name} (x${item.quantity})</div>
+                    <div>${itemTotal.toLocaleString()}₫</div>
+                </div>
+            `;
+                }
+            });
+            document.getElementById('totalPrice').innerText = `Tổng cộng: ${total.toLocaleString()}₫`;
+        } else {
+            cartContainer.innerHTML = `<div class="alert alert-warning">Giỏ hàng trống!</div>`;
+        }
+
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Giỏ hàng đang trống!");
+                return;
+            }
+            alert("Đặt hàng thành công! Cảm ơn bạn đã mua sắm.");
+            localStorage.removeItem('cart');
+            window.location.reload();
+        }
+    </script>
+</body>
+
+</html>
