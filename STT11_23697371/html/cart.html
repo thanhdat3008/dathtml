@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ Hàng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles for Cart */
+        
+        .cart-table th,
+        .cart-table td {
+            text-align: center;
+        }
+        
+        .cart-table td button {
+            transition: background-color 0.3s;
+        }
+        
+        .cart-table td button:hover {
+            background-color: #ff6f61;
+        }
+        
+        .checkout-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Giỏ Hàng</h2>
+        <div id="cartSection"></div>
+        <a href="index.html" class="btn btn-primary mt-4">Quay về Trang chủ</a>
+    </div>
+
+    <script>
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            alert("Vui lòng đăng nhập để xem giỏ hàng.");
+            window.location.href = "login.html";
+        }
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartSection = document.getElementById("cartSection");
+
+        function renderCart() {
+
+            if (cart.length === 0) {
+                cartSection.innerHTML = `<p class="text-center text-muted">Giỏ hàng của bạn trống.</p>`;
+                return;
+            }
+
+            let total = 0;
+            let rows = cart.map((item, index) => {
+                total += item.price;
+                return `
+                    <tr>
+                        <td>${item.productName}</td>
+                        <td>${item.price.toLocaleString()} VND</td>
+                        <td>1</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="removeItem(${index})">Xóa</button>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+
+            cartSection.innerHTML = `
+                <table class="table table-bordered table-hover cart-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+
+                <div class="checkout-section text-end">
+                    <p class="fw-bold fs-5">Tổng cộng: ${total.toLocaleString()} VND</p>
+                    <button class="btn btn-success" onclick="checkout()">Thanh toán</button>
+                </div>
+            `;
+        }
+
+        function removeItem(index) {
+            if (confirm("Bạn có chắc muốn xóa sản phẩm này?")) {
+                cart.splice(index, 1);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                renderCart();
+            }
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Giỏ hàng trống.");
+                return;
+            }
+
+            alert("Thanh toán thành công! Cảm ơn bạn đã mua sắm.");
+            localStorage.removeItem("cart");
+            window.location.href = "index.html";
+        }
+
+        renderCart();
+    </script>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Chủ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Navbar */
+        
+        #welcomeUser,
+        #logoutBtn {
+            color: #ffffff !important;
+        }
+        
+        .navbar {
+            background-color: #000000;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #f9d342;
+        }
+        
+        .cover-image {
+            background-image: url('../img/bài.png');
+            background-size: cover;
+            background-position: center;
+            height: 800px;
+            position: relative;
+            text-align: center;
+            color: white;
+        }
+        
+        .cover-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .cover-image h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+        /* Footer */
+        
+        footer {
+            background-color: #d0b29d;
+            color: #ffffff;
+        }
+        
+        footer a {
+            color: #ffffff;
+        }
+        
+        footer a:hover {
+            color: #f9d342;
+        }
+        
+        footer .text-white {
+            color: #000000 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="../img/logo.png" alt="Logo" width="40" class="me-2"> Đồ Gia Dụng
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register.html">Đăng ký</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html">Đăng nhập</a></li>
+                    <li class="nav-item"><a class="nav-link" href="product_detail.html">Chi tiết SP</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.html">Giỏ hàng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">Giới thiệu</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <span id="welcomeUser" class="text-dark me-3 fw-bold" style="display: none;"></span>
+                    <button id="logoutBtn" class="btn btn-outline-dark btn-sm" style="display: none;">Đăng xuất</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cover Image -->
+    <div class="cover-image">
+        <h1>Chào mừng đến với Website Đồ Gia Dụng</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-5 text-center">
+        <p class="lead">Khám phá những sản phẩm gia dụng tiện ích cho ngôi nhà của bạn.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-dark text-center py-5 mt-5 border-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>Liên hệ</h5>
+                    <p>Email: support@dogiadung.com</p>
+                    <p>Điện thoại: +84 123 456 789</p>
+                    <p>Địa chỉ: 123 Đường ABC, Thành phố XYZ, Việt Nam</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Điểm nổi bật</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="about.html" class="text-white">Giới thiệu</a></li>
+                        <li><a href="product_detail.html" class="text-white">Chi tiết sản phẩm</a></li>
+                        <li><a href="cart.html" class="text-white">Giỏ hàng</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Kết nối với chúng tôi</h5>
+                    <a href="https://facebook.com" class="text-white me-3">Facebook</a>
+                    <a href="https://instagram.com" class="text-white me-3">Instagram</a>
+                    <a href="https://twitter.com" class="text-white">Twitter</a>
+                </div>
+            </div>
+            <p class="mb-0">&copy; 2025 Website Đồ Gia Dụng. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Script to show login status and handle logout -->
+    <script>
+        window.onload = function() {
+            const isLoggedIn = localStorage.getItem("isLoggedIn");
+            const username = localStorage.getItem("username");
+
+            if (isLoggedIn === "true") {
+                document.getElementById("welcomeUser").textContent = `Xin chào, ${username}!`;
+                document.getElementById("welcomeUser").style.display = "inline";
+                document.getElementById("logoutBtn").style.display = "inline";
+            }
+
+            document.getElementById("logoutBtn").addEventListener("click", function() {
+                localStorage.setItem("isLoggedIn", "false");
+                localStorage.removeItem("username");
+                window.location.href = "index.html";
+            });
+        };
+    </script>
+
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
